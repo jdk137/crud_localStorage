@@ -1,7 +1,10 @@
 ;(function () {
   var records = JSON.parse(localStorage.records || '[]');
   var createRecord = function (param, callback) {
-    var record = $.extend(true, {}, param);
+    var record = {
+      name: param.name,
+      data: param.data
+    };
     record.id = 'record' + Math.random();
     records.push(record);
     localStorage.records = JSON.stringify(records);
@@ -48,7 +51,7 @@
     }
   };
   var readRecords = function (callback) {
-    callback($.extend([], records));
+    callback(JSON.parse(JSON.stringify(records)));
   };
 
   window.localStorageCRUD = {

@@ -4,10 +4,14 @@ localStorage CRUD(create, read, update, delete) API, to mock restful api before 
 [demo](https://cdn.rawgit.com/jdk137/crud_localStorage/master/index.html)
 
 ```
+// no depends
 ;(function () {
   var records = JSON.parse(localStorage.records || '[]');
   var createRecord = function (param, callback) {
-    var record = $.extend(true, {}, param);
+    var record = {
+      name: param.name,
+      data: param.data
+    };
     record.id = 'record' + Math.random();
     records.push(record);
     localStorage.records = JSON.stringify(records);
@@ -54,7 +58,7 @@ localStorage CRUD(create, read, update, delete) API, to mock restful api before 
     }
   };
   var readRecords = function (callback) {
-    callback($.extend([], records));
+    callback(JSON.parse(JSON.stringify(records)));
   };
 
   window.localStorageCRUD = {
@@ -66,4 +70,5 @@ localStorage CRUD(create, read, update, delete) API, to mock restful api before 
   };
 
 })();
+
 ```
