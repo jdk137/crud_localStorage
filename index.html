@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title></title>
+    <script src="./jquery.min.js"></script>
+    <script src="./crud.js"></script>
+    <style>
+    </style>
+</head>
+
+  <body class="">
+    <div class="new">
+      <div>new record</div>
+      name: <input class="name" type="text"/>
+      data: <input class="data" type="text"/>
+      <button class="add">add</button>
+    </div>
+    <div>records:</div>
+    <div class="lists">
+    </div>
+
+    <script>
+      // show all
+      var showAll = function () {
+        localStorageCRUD.readAll(function(lists) {
+          console.log(lists);
+          var html = '';
+          lists.forEach(function (d) {
+            html += '<p data-id="' + d.id + '">' +
+                '<input type="text" class="name" value="' + d.name + '" />' +
+                '<input type="text" class="data" value="' + d.data + '" />' +
+                '<button class="delete">delete</button>' +
+                '<button class="update" disabled>update</button>' +
+              '</p>';
+          });
+          $('.lists').html(html);
+        });
+      };
+      showAll();
+
+      // bind events
+      // add
+      $('button.add').click(function () {
+        var $new = $('.new');
+        var name = $new.find('.name').val().trim();
+        var data = $new.find('.data').val().trim();
+        if (!name && !data) {
+          return;
+        }
+        localStorageCRUD.create({
+          name: name,
+          data: data
+        }, function (d) {
+          showAll();
+        });
+      });
+      // delete
+      $('.lists').on('click', '.delete', function () {
+        var id = $(this).closest('p').data('id');
+        localStorageCRUD.delete({
+          id: id
+        }, function (d) {
+          showAll();
+        });
+      });
+      // change
+      $('.lists').on('keyup', 'input', function () {
+        var id = $(this).closest('p').find('.update').prop('disabled', false);
+      });
+      // update
+      $('.lists').on('click', '.update', function () {
+        var $list = $(this).closest('p');
+        var id = $list.data('id');
+        var name = $list.find('.name').val().trim();
+        var data = $list.find('.data').val().trim();
+        localStorageCRUD.update({
+          id: id,
+          name: name,
+          data: data
+        }, function (d) {
+          showAll();
+        });
+      });
+    </script>
+  </body>
+</html>
+

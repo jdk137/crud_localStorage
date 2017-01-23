@@ -1,8 +1,3 @@
-# crud_localStorage
-localStorage CRUD(create, read, update, delete) API, to mock restful api before real backend api is ready.
-
-
-```
 ;(function () {
   var records = JSON.parse(localStorage.records || '[]');
   var createRecord = function (param, callback) {
@@ -65,5 +60,3 @@ localStorage CRUD(create, read, update, delete) API, to mock restful api before 
   };
 
 })();
-```
-[More complex usages](https://cdn.rawgit.com/jdk137/crud_localStorage/master/index.html)
